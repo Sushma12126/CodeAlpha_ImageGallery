@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeAlpha - Image Gallery</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+body { background:#f4f4f4; }
+header { background:#111; color:#fff; text-align:center; padding:25px 10px; }
+header h1 { font-size:28px; }
+header p { color:#ccc; margin-top:5px; }
+.filters { text-align:center; padding:20px 10px; }
+.filters button { padding:10px 20px; margin:5px; border:none; border-radius:20px; background:#fff; cursor:pointer; font-weight:bold; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+.filters button.active { background:#111; color:#fff; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:15px; padding:15px; max-width:1100px; margin:auto; }
+.card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 3px 10px rgba(0,0,0,0.1); cursor:pointer; }
+.card img { width:100%; height:200px; object-fit:cover; display:block; transition:0.3s; }
+.card:hover img { transform:scale(1.08); }
+.card p { padding:12px; text-align:center; font-weight:bold; }
+.lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; flex-direction:column; z-index:10; }
+.lightbox img { max-width:90%; max-height:75%; border-radius:10px; }
+.lightbox p { color:#fff; margin-top:15px; font-size:18px; }
+.close { position:absolute; top:20px; right:30px; color:#fff; font-size:35px; cursor:pointer; }
+footer { text-align:center; padding:20px; color:#777; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>✨ My Image Gallery</h1>
+<p>CodeAlpha Task 1 | By Sushma12126</p>
+</header>
+
+<div class="filters">
+<button class="active" onclick="filterImages('all',this)">All</button>
+<button onclick="filterImages('nature',this)">Nature</button>
+<button onclick="filterImages('city',this)">City</button>
+<button onclick="filterImages('animals',this)">Animals</button>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="lightbox" id="lightbox">
+<span class="close" onclick="closeBox()">&times;</span>
+<img id="lightImg" src="">
+<p id="lightText"></p>
+</div>
+
+<footer>Made with ❤️ using HTML, CSS & JavaScript</footer>
+
+<script>
+const images = [
+{src:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600", cat:"nature", title:"Mountain View"},
+{src:"https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600", cat:"nature", title:"Beautiful Nature"},
+{src:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600", cat:"nature", title:"Forest"},
+{src:"https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600", cat:"city", title:"City Lights"},
+{src:"https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600", cat:"city", title:"City Street"},
+{src:"https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600", cat:"city", title:"New York City"},
+{src:"https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600", cat:"animals", title:"Cute Dog"},
+{src:"https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600", cat:"animals", title:"Cat"},
+{src:"https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=600", cat:"animals", title:"Elephant"}
+];
+
+function showImages(filter){
+const g = document.getElementById("gallery");
+g.innerHTML = "";
+images.filter(i => filter==="all" || i.cat===filter).forEach(i=>{
+g.innerHTML += `<div class="card" onclick="openBox('${i.src}','${i.title}')"><img src="${i.src}"><p>${i.title}</p></div>`;
+});
+}
+function filterImages(cat,btn){
+document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+showImages(cat);
+}
+function openBox(src,title){
+document.getElementById("lightImg").src=src;
+document.getElementById("lightText").innerText=title;
+document.getElementById("lightbox").style.display="flex";
+}
+function closeBox(){
+document.getElementById("lightbox").style.display="none";
+}
+showImages("all");
+</script>
+</body>
+  </html>
